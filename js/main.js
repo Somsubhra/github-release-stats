@@ -1,8 +1,12 @@
-$(function() {
-    validateInput();
-    $("#username, #repository").keyup(validateInput);
-});
+// Github API call according to their json-p dox
+function callGHAPI(url, callback) {
+    var apiRoot = "https://api.github.com/";
+    var script = document.createElement("script");
+    script.src = apiRoot + url + "?callback=" + callback;
+    document.getElementsByTagName("head")[0].appendChild(script);
+}
 
+// validate the user input
 function validateInput() {
     if ($("#username").val().length > 0 && $("#repository").val().length > 0) {
         $("#get-stats-button").prop("disabled", false);
@@ -11,3 +15,18 @@ function validateInput() {
         $("#get-stats-button").prop("disabled", true);
     }
 }
+
+// Callback function for getting user repositories
+function getUserReposCB(response) {
+    console.log(response);
+}
+
+// The main function
+$(function() {
+    validateInput();
+    $("#username, #repository").keyup(validateInput);
+    $("#username").change(function() {
+        var user = $("#username").val();
+        callGHAPI("users/" + user + "/repos", "getUserReposCB");
+    });
+});
