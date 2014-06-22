@@ -27,12 +27,24 @@ function getUserReposCB(response) {
     autoComplete.data('typeahead').source = repoNames;
 }
 
+function getStatsPressedCB(response) {
+    var data = response.data;
+    console.log(data);
+}
+
 // The main function
 $(function() {
     validateInput();
     $("#username, #repository").keyup(validateInput);
+
     $("#username").change(function() {
         var user = $("#username").val();
         callGHAPI("users/" + user + "/repos", "getUserReposCB");
+    });
+
+    $("#get-stats-button").click(function() {
+        var user = $("#username").val();
+        var repository = $("#repository").val();
+        callGHAPI("repos/" + user + "/" + repository + "/releases", "getStatsPressedCB");
     });
 });
