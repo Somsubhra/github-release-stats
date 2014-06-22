@@ -18,7 +18,12 @@ function validateInput() {
 
 // Callback function for getting user repositories
 function getUserReposCB(response) {
-    console.log(response);
+    var data = response.data;
+    var repoNames = [];
+    $.each(data, function(index, item) {
+        repoNames.push(data[index].name);
+    });
+    $("#repository").typeahead({source: repoNames});
 }
 
 // The main function
