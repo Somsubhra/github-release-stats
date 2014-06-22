@@ -21,7 +21,7 @@ function getUserReposCB(response) {
     var data = response.data;
     var repoNames = [];
     $.each(data, function(index, item) {
-        repoNames.push(data[index].name);
+        repoNames.push(item.name);
     });
     var autoComplete = $('#repository').typeahead();
     autoComplete.data('typeahead').source = repoNames;
@@ -43,16 +43,39 @@ function getStatsPressedCB(response) {
         errMessage = "There are no releases for this project";
     }
 
+    var html = '';
+
     if(err) {
-        var html = "<div class='col-md-6 col-md-offset-3 error'>" + errMessage + "</div>";
-        var resultDiv = $("#stats-result");
-        resultDiv.hide();
-        resultDiv.html(html);
-        resultDiv.slideDown();
-        return;
+        html = "<div class='col-md-6 col-md-offset-3 error'>" + errMessage + "</div>";
+
+    } else {
+        html += "<div class='col-md-6 col-md-offset-3'>";
+        var latest = true;
+        $.each(data, function(index, item) {
+            var releaseTag = item.tag_name;
+            var releaseURL = item.html_url;
+            if(latest) {
+                html += "<div class='row release latest-release'>" +
+                    "<h2><a href='" + releaseURL + "' target='_blank'>" +
+                    "Latest Release: " + releaseTag +
+                    "</a></h2><hr class='latest-release-hr'>" +
+                    "</div>";
+                latest = false;
+            } else {
+                html += "<div class='row release'>" +
+                    "<h4><a href='" + releaseURL + "' target='_blank'>" +
+                    releaseTag +
+                    "</a></h4><hr class='release-hr'>" +
+                    "</div>";
+            }
+        });
+        html += "</div>";
     }
 
-    var result = '';
+    var resultDiv = $("#stats-result");
+    resultDiv.hide();
+    resultDiv.html(html);
+    resultDiv.slideDown();
 }
 
 // The main function

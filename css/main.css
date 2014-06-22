@@ -18,3 +18,24 @@
     border-radius: 5px;
     text-align: center;
 }
+
+.release {
+    background-color: rgba(127, 140, 141, 0.2);
+    border: solid 1px rgba(127, 140, 141, 0.4);
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.latest-release {
+    background-color: rgba(52, 152, 219, 0.2);
+    border: solid 1px rgba(52, 152, 219, 0.4);
+}
+
+.latest-release-hr {
+    border-top-color: rgba(52, 152, 219, 0.4);
+}
+
+.release-hr {
+    border-top-color: rgba(127, 140, 141, 0.4);
+}
