@@ -23,7 +23,8 @@ function getUserReposCB(response) {
     $.each(data, function(index, item) {
         repoNames.push(data[index].name);
     });
-    $("#repository").typeahead({source: repoNames});
+    var autoComplete = $('#repository').typeahead();
+    autoComplete.data('typeahead').source = repoNames;
 }
 
 // The main function
