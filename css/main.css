@@ -5,3 +5,16 @@
     margin-top: 10px;
     width: 100%;
 }
+
+#stats-result {
+    margin-top: 50px;
+}
+
+.error {
+    background-color: rgba(231, 76, 60, 0.2);
+    border: solid 1px rgba(231, 76, 60, 0.4);
+    padding: 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    text-align: center;
+}

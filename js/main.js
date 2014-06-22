@@ -30,6 +30,29 @@ function getUserReposCB(response) {
 function getStatsPressedCB(response) {
     var data = response.data;
     console.log(data);
+
+    var err = false;
+    var errMessage = '';
+
+    if(data.message == "Not Found") {
+        err = true;
+        errMessage = "The project does not exist!";
+    }
+    if(data.length == 0) {
+        err = true;
+        errMessage = "There are no releases for this project";
+    }
+
+    if(err) {
+        var html = "<div class='col-md-6 col-md-offset-3 error'>" + errMessage + "</div>";
+        var resultDiv = $("#stats-result");
+        resultDiv.hide();
+        resultDiv.html(html);
+        resultDiv.slideDown();
+        return;
+    }
+
+    var result = '';
 }
 
 // The main function
