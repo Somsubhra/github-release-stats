@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Github Release Stats</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="third-party/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href=".">
+                    <span class="glyphicon glyphicon-stats"></span>&nbsp&nbsp
+                    Github Release Stats
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="main-navbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="https://github.com/Somsubhra/github-release-stats" target="_blank">
+                            Fork on Github
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <h1>Enter project details...</h1>
+                <div class="form form-inline">
+                    <div class="form-group">
+                        <input type="text" name="username" class="form-control" id="username" placeholder="Github username">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="repository" class="form-control" id="repository" placeholder="Repository name">
+                    </div>
+                    <button class="btn btn-primary" id="get-stats-button">Get the latest release stats!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="third-party/jquery/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="third-party/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+</html>

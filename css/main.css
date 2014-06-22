@@ -1,0 +1,7 @@
+.form-group {
+    width: 100%;
+}
+#username, #repository, #get-stats-button {
+    margin-top: 10px;
+    width: 100%;
+}
