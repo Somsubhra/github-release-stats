@@ -76,28 +76,27 @@ function getStatsPressedCB(response) {
                     "</a></h4><hr class='release-hr'>";
             }
 
-            html += "<h5><b><span class='glyphicon glyphicon-info-sign'></span>&nbsp&nbsp" +
-                "Release details:</b></h5>";
+            html += "<h4><span class='glyphicon glyphicon-info-sign'></span>&nbsp&nbsp" +
+                "Release Info:</h4>";
 
             html += "<ul>";
 
-            html += "<li><b><span class='glyphicon glyphicon-user'></span>&nbsp&nbspRelease Author: </b>" +
+            html += "<li><span class='glyphicon glyphicon-user'></span>&nbsp&nbspRelease Author: " +
                 "<a href='" + releaseAuthor.html_url + "'>" + releaseAuthor.login  +"</a><br></li>";
 
-            html += "<li><b><span class='glyphicon glyphicon-calendar'></span>&nbsp&nbspPublished on: </b>" +
+            html += "<li><span class='glyphicon glyphicon-calendar'></span>&nbsp&nbspPublished on: " +
                 publishDate + "</li>";
 
             html += "</ul>";
             if(hasAssets) {
-                html += "<h5><b><span class='glyphicon glyphicon-download'></span>" +
-                    "&nbsp&nbspDownload Info: </b>" +
-                    "</h5>";
+                html += "<h4><span class='glyphicon glyphicon-download'></span>" +
+                    "&nbsp&nbspDownload Info: </h4>";
 
                 html += "<ul>";
                 $.each(releaseAssets, function(index, asset) {
                     var assetSize = (asset.size / 1000000.0).toFixed(2);
                     var lastUpdate = asset.updated_at.split("T")[0];
-                    html += "<li><b>" + asset.name + "</b>(" + assetSize + "MB) - Downloaded " +
+                    html += "<li>" + asset.name + "(" + assetSize + "MB) - Downloaded " +
                         asset.download_count + " times.<br><i>Last updated on " + lastUpdate + "</i></li>";
                 });
                 html += "</ul>";
