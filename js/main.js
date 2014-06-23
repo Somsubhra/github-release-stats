@@ -27,6 +27,7 @@ function getUserReposCB(response) {
     autoComplete.data('typeahead').source = repoNames;
 }
 
+// Callback function for getting release stats
 function getStatsPressedCB(response) {
     var data = response.data;
     console.log(data);
@@ -46,11 +47,11 @@ function getStatsPressedCB(response) {
     var html = '';
 
     if(err) {
-        html = "<div class='col-md-6 col-md-offset-3 error'>" + errMessage + "</div>";
+        html = "<div class='col-md-6 col-md-offset-3 error output'>" + errMessage + "</div>";
 
     } else {
 
-        html += "<div class='col-md-6 col-md-offset-3'>";
+        html += "<div class='col-md-6 col-md-offset-3 output'>";
         var latest = true;
 
         $.each(data, function(index, item) {
@@ -109,11 +110,13 @@ function getStatsPressedCB(response) {
     var resultDiv = $("#stats-result");
     resultDiv.hide();
     resultDiv.html(html);
+    $("#loader-gif").hide();
     resultDiv.slideDown();
 }
 
 // The main function
 $(function() {
+    $("#loader-gif").hide();
     validateInput();
     $("#username, #repository").keyup(validateInput);
 
@@ -123,6 +126,8 @@ $(function() {
     });
 
     $("#get-stats-button").click(function() {
+        $(".output").hide();
+        $("#loader-gif").show();
         var user = $("#username").val();
         var repository = $("#repository").val();
         callGHAPI("repos/" + user + "/" + repository + "/releases", "getStatsPressedCB");

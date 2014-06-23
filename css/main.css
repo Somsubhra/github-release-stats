@@ -39,3 +39,9 @@
 .release-hr {
     border-top-color: rgba(127, 140, 141, 0.4);
 }
+
+#loader-gif {
+    position: absolute;
+    top: 70%;
+    left: 46%;
+}
