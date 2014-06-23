@@ -30,7 +30,6 @@ function getUserReposCB(response) {
 // Callback function for getting release stats
 function getStatsPressedCB(response) {
     var data = response.data;
-    console.log(data);
 
     var err = false;
     var errMessage = '';
@@ -127,6 +126,7 @@ $(function() {
 
     $("#get-stats-button").click(function() {
         $(".output").hide();
+        $("#description").hide();
         $("#loader-gif").show();
         var user = $("#username").val();
         var repository = $("#repository").val();

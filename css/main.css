@@ -42,6 +42,10 @@
 
 #loader-gif {
     position: absolute;
-    top: 70%;
+    bottom: 10%;
     left: 46%;
+}
+
+#description {
+    text-align: center;
 }
