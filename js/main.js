@@ -13,12 +13,15 @@ function validateInput() {
 // Callback function for getting user repositories
 function getUserRepos() {
     var user = $("#username").val();
+
     var url = apiRoot + "users/" + user + "/repos";
     $.getJSON(url, function(data) {
         var repoNames = [];
+
         $.each(data, function(index, item) {
             repoNames.push(item.name);
         });
+        
         var autoComplete = $('#repository').typeahead();
         autoComplete.data('typeahead').source = repoNames;
     });
@@ -42,9 +45,7 @@ function showStats(data) {
 
     if(err) {
         html = "<div class='col-md-6 col-md-offset-3 error output'>" + errMessage + "</div>";
-
     } else {
-
         html += "<div class='col-md-6 col-md-offset-3 output'>";
         var latest = true;
 
@@ -83,6 +84,7 @@ function showStats(data) {
                 publishDate + "</li>";
 
             html += "</ul>";
+        
             if(hasAssets) {
                 html += "<h4><span class='glyphicon glyphicon-download'></span>" +
                     "&nbsp&nbspDownload Info: </h4>";
@@ -98,6 +100,7 @@ function showStats(data) {
             }
             html += "</div>";
         });
+
         html += "</div>";
     }
 
@@ -112,6 +115,7 @@ function showStats(data) {
 function getStats() {
     var user = $("#username").val();
     var repository = $("#repository").val();
+
     var url = apiRoot + "repos/" + user + "/" + repository + "/releases";
     $.getJSON(url, showStats);
 }
@@ -119,9 +123,12 @@ function getStats() {
 // The main function
 $(function() {
     $("#loader-gif").hide();
+
     validateInput();
     $("#username, #repository").keyup(validateInput);
+
     $("#username").change(getUserRepos);
+
     $("#get-stats-button").click(function() {
         $(".output").hide();
         $("#description").hide();
