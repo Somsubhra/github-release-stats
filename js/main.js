@@ -4,8 +4,7 @@ var apiRoot = "https://api.github.com/";
 function validateInput() {
     if ($("#username").val().length > 0 && $("#repository").val().length > 0) {
         $("#get-stats-button").prop("disabled", false);
-    }
-    else {
+    } else {
         $("#get-stats-button").prop("disabled", true);
     }
 }
@@ -32,10 +31,11 @@ function showStats(data) {
     var err = false;
     var errMessage = '';
 
-    if(data.message == "Not Found") {
+    if(data.statusText == "Not Found") {
         err = true;
         errMessage = "The project does not exist!";
     }
+
     if(data.length == 0) {
         err = true;
         errMessage = "There are no releases for this project";
@@ -117,7 +117,7 @@ function getStats() {
     var repository = $("#repository").val();
 
     var url = apiRoot + "repos/" + user + "/" + repository + "/releases";
-    $.getJSON(url, showStats);
+    $.getJSON(url, showStats).fail(showStats);
 }
 
 // The main function
