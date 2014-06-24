@@ -13,17 +13,17 @@ function validateInput() {
 function getUserRepos() {
     var user = $("#username").val();
 
+    var autoComplete = $('#repository').typeahead();
+    var repoNames = [];
+
     var url = apiRoot + "users/" + user + "/repos";
     $.getJSON(url, function(data) {
-        var repoNames = [];
-
         $.each(data, function(index, item) {
             repoNames.push(item.name);
         });
-        
-        var autoComplete = $('#repository').typeahead();
-        autoComplete.data('typeahead').source = repoNames;
     });
+
+    autoComplete.data('typeahead').source = repoNames;
 }
 
 // Display the stats
