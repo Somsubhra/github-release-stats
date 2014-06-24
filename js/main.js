@@ -1,10 +1,4 @@
-// Github API call according to their json-p dox
-function callGHAPI(url, callback) {
-    var apiRoot = "https://api.github.com/";
-    var script = document.createElement("script");
-    script.src = apiRoot + url + "?callback=" + callback;
-    document.getElementsByTagName("head")[0].appendChild(script);
-}
+var apiRoot = "https://api.github.com/";
 
 // validate the user input
 function validateInput() {
@@ -17,20 +11,21 @@ function validateInput() {
 }
 
 // Callback function for getting user repositories
-function getUserReposCB(response) {
-    var data = response.data;
-    var repoNames = [];
-    $.each(data, function(index, item) {
-        repoNames.push(item.name);
+function getUserRepos() {
+    var user = $("#username").val();
+    var url = apiRoot + "users/" + user + "/repos";
+    $.getJSON(url, function(data) {
+        var repoNames = [];
+        $.each(data, function(index, item) {
+            repoNames.push(item.name);
+        });
+        var autoComplete = $('#repository').typeahead();
+        autoComplete.data('typeahead').source = repoNames;
     });
-    var autoComplete = $('#repository').typeahead();
-    autoComplete.data('typeahead').source = repoNames;
 }
 
-// Callback function for getting release stats
-function getStatsPressedCB(response) {
-    var data = response.data;
-
+// Display the stats
+function showStats(data) {
     var err = false;
     var errMessage = '';
 
@@ -113,23 +108,24 @@ function getStatsPressedCB(response) {
     resultDiv.slideDown();
 }
 
+// Callback function for getting release stats
+function getStats() {
+    var user = $("#username").val();
+    var repository = $("#repository").val();
+    var url = apiRoot + "repos/" + user + "/" + repository + "/releases";
+    $.getJSON(url, showStats);
+}
+
 // The main function
 $(function() {
     $("#loader-gif").hide();
     validateInput();
     $("#username, #repository").keyup(validateInput);
-
-    $("#username").change(function() {
-        var user = $("#username").val();
-        callGHAPI("users/" + user + "/repos", "getUserReposCB");
-    });
-
+    $("#username").change(getUserRepos);
     $("#get-stats-button").click(function() {
         $(".output").hide();
         $("#description").hide();
         $("#loader-gif").show();
-        var user = $("#username").val();
-        var repository = $("#repository").val();
-        callGHAPI("repos/" + user + "/" + repository + "/releases", "getStatsPressedCB");
+        getStats();
     });
 });
