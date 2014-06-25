@@ -28,10 +28,11 @@ function getUserRepos() {
 
 // Display the stats
 function showStats(data) {
+
     var err = false;
     var errMessage = '';
 
-    if(data.statusText == "Not Found") {
+    if(data.status == 404) {
         err = true;
         errMessage = "The project does not exist!";
     }
