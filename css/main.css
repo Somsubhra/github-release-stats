@@ -1,3 +1,7 @@
+html * {
+    font-family: 'Open Sans', sans-serif;
+}
+
 .form-group {
     width: 100%;
 }
