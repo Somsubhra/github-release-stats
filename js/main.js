@@ -131,9 +131,6 @@ function getStats() {
 
     var url = apiRoot + "repos/" + user + "/" + repository + "/releases";
     $.getJSON(url, showStats).fail(showStats);
-
-    validateInput();
-    getUserRepos();
 }
 
 // The main function
@@ -156,6 +153,8 @@ $(function() {
     if(username != "" && repository != "") {
         $("#username").val(username);
         $("#repository").val(repository);
+        validateInput();
+        getUserRepos();
         $(".output").hide();
         $("#description").hide();
         $("#loader-gif").show();
