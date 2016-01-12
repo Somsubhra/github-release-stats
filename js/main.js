@@ -120,7 +120,7 @@ function showStats(data) {
             totalDownloadCount = totalDownloadCount.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,');
             html += "<div class='row total-downloads'>";
             html += "<h2><span class='glyphicon glyphicon-download'></span>" +
-                "&nbsp&nbspTotal Downloads</h2>";
+                "&nbsp&nbspTotal Downloads</h2> ";
             html += "<span>" + totalDownloadCount + "</span>";
             html += "</div>";
         }
