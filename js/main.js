@@ -61,6 +61,7 @@ function showStats(data) {
     } else {
         html += "<div class='col-md-6 col-md-offset-3 output'>";
         var latest = true;
+        var totalDownloadCount = 0;
 
         $.each(data, function(index, item) {
             var releaseTag = item.tag_name;
@@ -106,13 +107,23 @@ function showStats(data) {
                 $.each(releaseAssets, function(index, asset) {
                     var assetSize = (asset.size / 1000000.0).toFixed(2);
                     var lastUpdate = asset.updated_at.split("T")[0];
-                    html += "<li>" + asset.name + "(" + assetSize + "MB) - Downloaded " +
+                    html += "<li>" + asset.name + " (" + assetSize + "MB) - Downloaded " +
                         asset.download_count + " times.<br><i>Last updated on " + lastUpdate + "</i></li>";
+                    totalDownloadCount += asset.download_count;
                 });
                 html += "</ul>";
             }
             html += "</div>";
         });
+
+        if(totalDownloadCount > 0) {
+            totalDownloadCount = totalDownloadCount.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+            html += "<div class='row total-downloads'>";
+            html += "<h2><span class='glyphicon glyphicon-download'></span>" +
+                "&nbsp&nbspTotal Downloads</h2> ";
+            html += "<span>" + totalDownloadCount + "</span>";
+            html += "</div>";
+        }
 
         html += "</div>";
     }
@@ -131,9 +142,6 @@ function getStats() {
 
     var url = apiRoot + "repos/" + user + "/" + repository + "/releases";
     $.getJSON(url, showStats).fail(showStats);
-
-    validateInput();
-    getUserRepos();
 }
 
 // The main function
@@ -156,6 +164,8 @@ $(function() {
     if(username != "" && repository != "") {
         $("#username").val(username);
         $("#repository").val(repository);
+        validateInput();
+        getUserRepos();
         $(".output").hide();
         $("#description").hide();
         $("#loader-gif").show();

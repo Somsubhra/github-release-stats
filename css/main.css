@@ -23,6 +23,18 @@ html * {
     text-align: center;
 }
 
+.total-downloads {
+    margin-top: 25px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.total-downloads h2 {
+    display: inline;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
 .release {
     background-color: rgba(127, 140, 141, 0.2);
     border: solid 1px rgba(127, 140, 141, 0.4);
