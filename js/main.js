@@ -105,7 +105,7 @@ function showStats(data) {
 
                 html += "<ul>";
                 $.each(releaseAssets, function(index, asset) {
-                    var assetSize = (asset.size / 1000000.0).toFixed(2);
+                    var assetSize = (asset.size / 1048576.0).toFixed(2);
                     var lastUpdate = asset.updated_at.split("T")[0];
                     html += "<li>" + asset.name + " (" + assetSize + "MB) - Downloaded " +
                         asset.download_count + " times.<br><i>Last updated on " + lastUpdate + "</i></li>";
