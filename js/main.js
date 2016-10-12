@@ -49,6 +49,11 @@ function showStats(data) {
         errMessage = "The project does not exist!";
     }
 
+    if(data.status == 403) {
+        err = true;
+        errMessage = "You've exceeded GitHub's rate limiting.<br />Please try again in about an hour.";
+    }
+
     if(data.length == 0) {
         err = true;
         errMessage = "There are no releases for this project";
