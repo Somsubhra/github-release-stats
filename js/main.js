@@ -112,8 +112,9 @@ function showStats(data) {
                 $.each(releaseAssets, function(index, asset) {
                     var assetSize = (asset.size / 1048576.0).toFixed(2);
                     var lastUpdate = asset.updated_at.split("T")[0];
-                    html += "<li>" + asset.name + " (" + assetSize + " MiB) - Downloaded " +
-                        asset.download_count + " times.<br><i>Last updated on " + lastUpdate + "</i></li>";
+                    html += "<li>" + asset.name + " (" + assetSize + " MiB)<br>" +
+                        "<i>Last updated on " + lastUpdate + " — Downloaded " +
+                        asset.download_count + " times.</i></li>";
                     totalDownloadCount += asset.download_count;
                 });
                 html += "</ul>";
