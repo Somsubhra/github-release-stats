@@ -1,5 +1,6 @@
 var apiRoot = "https://api.github.com/";
 
+// Return a HTTP query variable
 function getQueryVariable(variable) {
     var query = window.location.search.substring(1);
     var vars = query.split("&");
@@ -12,7 +13,12 @@ function getQueryVariable(variable) {
     return "";
 }
 
-// validate the user input
+// Format numbers
+function formatNumber(value) {
+    return value.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,')
+}
+
+// Validate the user input
 function validateInput() {
     if ($("#username").val().length > 0 && $("#repository").val().length > 0) {
         $("#get-stats-button").prop("disabled", false);
@@ -40,7 +46,6 @@ function getUserRepos() {
 
 // Display the stats
 function showStats(data) {
-
     var err = false;
     var errMessage = '';
 
@@ -59,81 +64,92 @@ function showStats(data) {
         errMessage = "There are no releases for this project";
     }
 
-    var html = '';
+    var html = "";
 
     if(err) {
-        html = "<div class='col-md-6 col-md-offset-3 error output'>" + errMessage + "</div>";
+        html += "<div class='col-md-6 col-md-offset-3 alert alert-danger output'>" + errMessage + "</div>";
     } else {
         html += "<div class='col-md-6 col-md-offset-3 output'>";
-        var latest = true;
-        var totalDownloadCount = 0;
 
+        var isLatestRelease = true;
+        var totalDownloadCount = 0;
         $.each(data, function(index, item) {
             var releaseTag = item.tag_name;
+            var releaseBadge = "";
+            var releaseClassNames = "release";
             var releaseURL = item.html_url;
+            var isPreRelease = item.prerelease;
             var releaseAssets = item.assets;
-            var hasAssets = releaseAssets.length != 0;
+            var releaseDownloadCount = 0;
             var releaseAuthor = item.author;
             var publishDate = item.published_at.split("T")[0];
-            var ReleaseDownloadCount = 0;
 
-            if(latest) {
-                html += "<div class='row release latest-release'>" +
-                    "<h2><a href='" + releaseURL + "' target='_blank'>" +
-                    "<span class='glyphicon glyphicon-tag'></span>&nbsp&nbsp" +
-                    "Latest Release: " + releaseTag +
-                    "</a></h2><hr class='latest-release-hr'>";
-                latest = false;
-            } else {
-                html += "<div class='row release'>" +
-                    "<h4><a href='" + releaseURL + "' target='_blank'>" +
-                    "<span class='glyphicon glyphicon-tag'></span>&nbsp&nbsp" +
-                    releaseTag +
-                    "</a></h4><hr class='release-hr'>";
+            if(isPreRelease) {
+                releaseBadge = "&nbsp;&nbsp;<span class='badge'>Pre-release</span>";
+                releaseClassNames += " pre-release";
+            } else if(isLatestRelease) {
+                releaseBadge = "&nbsp;&nbsp;<span class='badge'>Latest release</span>";
+                releaseClassNames += " latest-release";
+                isLatestRelease = false;
             }
-            
-            if(hasAssets) {
-                var downloadInfoHTML = "<h4><span class='glyphicon glyphicon-download'></span>" +
-                    "&nbsp&nbspDownload Info: </h4>";
+
+            var downloadInfoHTML = "";
+            if(releaseAssets.length) {
+                downloadInfoHTML += "<h4><span class='glyphicon glyphicon-download'></span>&nbsp;&nbsp;" +
+                    "Download Info</h4>";
+
                 downloadInfoHTML += "<ul>";
+
                 $.each(releaseAssets, function(index, asset) {
                     var assetSize = (asset.size / 1048576.0).toFixed(2);
                     var lastUpdate = asset.updated_at.split("T")[0];
-                    downloadInfoHTML += "<li>" + asset.name + " (" + assetSize + " MiB) - Downloaded " +
-                        asset.download_count.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,') + " times.<br><i>Last updated on " + lastUpdate + "</i></li>";
+
+                    downloadInfoHTML += "<li><code>" + asset.name + "</code> (" + assetSize + "&nbsp;MiB) - " +
+                        "downloaded " + formatNumber(asset.download_count) + "&nbsp;times. " +
+                        "Last&nbsp;updated&nbsp;on&nbsp;" + lastUpdate + "</li>";
+
                     totalDownloadCount += asset.download_count;
-                    ReleaseDownloadCount += asset.download_count;
+                    releaseDownloadCount += asset.download_count;
                 });
             }
 
-            html += "<h4><span class='glyphicon glyphicon-info-sign'></span>&nbsp&nbsp" +
-                "Release Info:</h4>";
+            html += "<div class='row " + releaseClassNames + "'>";
+
+            html += "<h3><span class='glyphicon glyphicon-tag'></span>&nbsp;&nbsp;" +
+                "<a href='" + releaseURL + "' target='_blank'>" + releaseTag + "</a>" +
+                releaseBadge + "</h3>" + "<hr class='release-hr'>";
+
+            html += "<h4><span class='glyphicon glyphicon-info-sign'></span>&nbsp;&nbsp;" +
+                "Release Info</h4>";
 
             html += "<ul>";
 
-            html += "<li><span class='glyphicon glyphicon-user'></span>&nbsp&nbspRelease Author: " +
-                "<a href='" + releaseAuthor.html_url + "'>" + releaseAuthor.login  +"</a><br></li>";
+            if (releaseAuthor) {
+                html += "<li><span class='glyphicon glyphicon-user'></span>&nbsp;&nbsp;" +
+                    "Author: <a href='" + releaseAuthor.html_url + "'>@" + releaseAuthor.login  +"</a></li>";
+            }
 
-            html += "<li><span class='glyphicon glyphicon-calendar'></span>&nbsp&nbspPublished on: " +
-                publishDate + "</li>";
-                
-            html += "<li><span class='glyphicon glyphicon-download'></span>&nbsp&nbspDownloads: " +
-                ReleaseDownloadCount.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,') + "</li>";
+            html += "<li><span class='glyphicon glyphicon-calendar'></span>&nbsp;&nbsp;" +
+                "Published: " + publishDate + "</li>";
+
+            if(releaseDownloadCount) {
+                html += "<li><span class='glyphicon glyphicon-download'></span>&nbsp;&nbsp;" +
+                    "Downloads: " + formatNumber(releaseDownloadCount) + "</li>";
+            }
 
             html += "</ul>";
-        
+
             html += downloadInfoHTML;
-            
+
             html += "</div>";
         });
 
-        if(totalDownloadCount > 0) {
-            totalDownloadCount = totalDownloadCount.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+        if(totalDownloadCount) {
             var totalHTML = "<div class='row total-downloads'>";
-            totalHTML += "<h2><span class='glyphicon glyphicon-download'></span>" +
-                "&nbsp&nbspTotal Downloads</h2> ";
-            totalHTML += "<span>" + totalDownloadCount + "</span>";
+            totalHTML += "<h1><span class='glyphicon glyphicon-download'></span>&nbsp;&nbsp;Total Downloads</h1>";
+            totalHTML += "<span>" + formatNumber(totalDownloadCount) + "</span>";
             totalHTML += "</div>";
+
             html = totalHTML + html;
         }
 
@@ -172,6 +188,7 @@ $(function() {
 
     var username = getQueryVariable("username");
     var repository = getQueryVariable("repository");
+    var showSearch = getQueryVariable("search");
 
     if(username != "" && repository != "") {
         $("#username").val(username);
@@ -182,5 +199,9 @@ $(function() {
         $("#description").hide();
         $("#loader-gif").show();
         getStats();
+    }
+    if(showSearch == "0") {
+        $("#search").hide();
+        $("#description").hide();
     }
 });
