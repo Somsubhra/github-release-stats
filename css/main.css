@@ -2,6 +2,17 @@ html * {
     font-family: 'Roboto', sans-serif;
 }
 
+a, a:hover {
+    color: rgba(66, 139, 202, 1);
+}
+
+code {
+    font-family: 'Roboto Mono', monospace;
+    background-color: rgba(127, 140, 141, 0.1);
+    color: inherit;
+    white-space: nowrap;
+}
+
 .form-group {
     width: 100%;
 }
@@ -15,12 +26,8 @@ html * {
     margin-bottom: 40px;
 }
 
-.error {
-    background-color: rgba(231, 76, 60, 0.2);
-    border: solid 1px rgba(231, 76, 60, 0.4);
-    padding: 20px;
+.alert.output {
     font-size: 18px;
-    border-radius: 5px;
     text-align: center;
 }
 
@@ -29,31 +36,67 @@ html * {
     text-align: center;
 }
 
-.total-downloads h2 {
+.total-downloads h1 {
     display: inline;
     font-size: 18px;
     margin-right: 10px;
 }
 
 .release {
-    background-color: rgba(127, 140, 141, 0.2);
+    background-color: rgba(127, 140, 141, 0.1);
     border: solid 1px rgba(127, 140, 141, 0.4);
     padding: 20px;
     border-radius: 5px;
     margin-bottom: 10px;
 }
 
-.latest-release {
-    background-color: rgba(52, 152, 219, 0.2);
-    border: solid 1px rgba(52, 152, 219, 0.4);
+.release h3 .glyphicon {
+    cursor: default;
+    color: rgba(66, 139, 202, 1);
 }
 
-.latest-release-hr {
-    border-top-color: rgba(52, 152, 219, 0.4);
+.release h3 .badge {
+    cursor: default;
+    background-color: rgba(66, 139, 202, 1);
+    color: #fff;
 }
 
 .release-hr {
     border-top-color: rgba(127, 140, 141, 0.4);
+}
+
+.latest-release {
+    background-color: rgba(92, 184, 92, 0.2);
+    border-color: rgba(92, 184, 92, 0.4);
+}
+
+.latest-release h3, .latest-release h3 .glyphicon, .latest-release h3 a {
+    color: rgba(92, 184, 92, 1);
+}
+
+.latest-release h3 .badge {
+    background-color: rgba(92, 184, 92, 1);
+}
+
+.latest-release .release-hr {
+    border-color: rgba(92, 184, 92, 0.4);
+}
+
+.pre-release {
+    background-color: rgba(240, 173, 78, 0.05);
+    border-color: rgba(240, 173, 78, 0.4);
+}
+
+.pre-release h3, .pre-release h3 .glyphicon, .pre-release h3 a {
+    color: rgba(240, 173, 78, 1);
+}
+
+.pre-release h3 .badge {
+    background-color: rgba(240, 173, 78, 1);
+}
+
+.pre-release .release-hr {
+    border-color: rgba(240, 173, 78, 0.4);
 }
 
 #loader-gif {
