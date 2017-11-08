@@ -31,7 +31,12 @@ function validateInput() {
 function getUserRepos() {
     var user = $("#username").val();
 
-    var autoComplete = $('#repository').typeahead();
+    var autoComplete = $('#repository').typeahead({ 
+        autoSelect: true,
+        afterSelect: function() {
+            $("#get-stats-button").click();
+        }
+     });
     var repoNames = [];
 
     var url = apiRoot + "users/" + user + "/repos";
