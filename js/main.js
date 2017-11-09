@@ -27,17 +27,10 @@ function validateInput() {
     }
 }
 
-// Focus on #username when document is ready
-$(document).ready(function() {
-    if (!$("#username").val()) {
-        $("#username").focus();
-    }
-});
-
 // Move to #repository when hit enter and if it's empty or trigger the button
 $("#username").keyup(function (event) {
     if (event.keyCode === 13) {
-        if (!$('#repository').val()) {
+        if (!$("#repository").val()) {
             $("#repository").focus();
         } else {
             $("#get-stats-button").click();
@@ -222,6 +215,8 @@ $(function() {
         $("#description").hide();
         $("#loader-gif").show();
         getStats();
+    } else {
+        $("#username").focus();
     }
     if(showSearch == "0") {
         $("#search").hide();
