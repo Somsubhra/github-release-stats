@@ -27,6 +27,13 @@ function validateInput() {
     }
 }
 
+// Focus on #username when document is ready
+$(document).ready(function() {
+    if (!$("#username").val()) {
+        $("#username").focus();
+    }
+});
+
 // Move to #repository when hit enter and if it's empty or trigger the button
 $("#username").keyup(function (event) {
     if (event.keyCode === 13) {
