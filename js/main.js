@@ -27,6 +27,17 @@ function validateInput() {
     }
 }
 
+// Move to #repository when hit enter and if it's empty or trigger the button
+$("#username").keyup(function (event) {
+    if (event.keyCode === 13) {
+        if (!$('#repository').val()) {
+            $("#repository").focus();
+        } else {
+            $("#get-stats-button").click();
+        }
+    }
+});
+
 // Callback function for getting user repositories
 function getUserRepos() {
     var user = $("#username").val();
