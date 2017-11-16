@@ -183,7 +183,8 @@ $(function() {
 
     $("#get-stats-button").click(function() {
         window.location = "?username=" + $("#username").val() +
-            "&repository=" + $("#repository").val();
+            "&repository=" + $("#repository").val() +
+            ((getQueryVariable("search") == "0") ? "&search=0" : "");
     });
 
     var username = getQueryVariable("username");
@@ -192,16 +193,20 @@ $(function() {
 
     if(username != "" && repository != "") {
         $("#username").val(username);
+        $("#title .username").text(username);
         $("#repository").val(repository);
+        $("#title .repository").text(repository);
         validateInput();
         getUserRepos();
         $(".output").hide();
         $("#description").hide();
         $("#loader-gif").show();
         getStats();
-    }
-    if(showSearch == "0") {
-        $("#search").hide();
-        $("#description").hide();
+
+        if(showSearch == "0") {
+            $("#search").hide();
+            $("#description").hide();
+            $("#title").show();
+        }
     }
 });
