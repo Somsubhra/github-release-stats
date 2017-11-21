@@ -109,6 +109,22 @@ code {
     text-align: center;
 }
 
+#title {
+    display: none;
+    margin: 20px 0 10px 0;
+    text-align: center;
+}
+
+#title > h1 {
+    display: inline;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+#title > span {
+    font-size: 24px;
+}
+
 html {
     position: relative;
     min-height: 100%;
