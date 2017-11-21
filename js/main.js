@@ -27,11 +27,27 @@ function validateInput() {
     }
 }
 
+// Move to #repository when hit enter and if it's empty or trigger the button
+$("#username").keyup(function (event) {
+    if (event.keyCode === 13) {
+        if (!$("#repository").val()) {
+            $("#repository").focus();
+        } else {
+            $("#get-stats-button").click();
+        }
+    }
+});
+
 // Callback function for getting user repositories
 function getUserRepos() {
     var user = $("#username").val();
 
-    var autoComplete = $('#repository').typeahead();
+    var autoComplete = $('#repository').typeahead({ 
+        autoSelect: true,
+        afterSelect: function() {
+            $("#get-stats-button").click();
+        }
+     });
     var repoNames = [];
 
     var url = apiRoot + "users/" + user + "/repos";
@@ -208,5 +224,7 @@ $(function() {
             $("#description").hide();
             $("#title").show();
         }
+    } else {
+        $("#username").focus();
     }
 });
