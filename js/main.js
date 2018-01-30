@@ -50,7 +50,7 @@ function getUserRepos() {
      });
     var repoNames = [];
 
-    var url = apiRoot + "users/" + user + "/repos";
+    var url = apiRoot + "users/" + user + "/repos?per_page=100";
     $.getJSON(url, function(data) {
         $.each(data, function(index, item) {
             repoNames.push(item.name);
