@@ -89,6 +89,12 @@ function showStats(data) {
 
         var isLatestRelease = true;
         var totalDownloadCount = 0;
+
+        // Sort by publish date
+        data.sort(function(a, b) {
+            return (a.published_at < b.published_at) ? 1 : -1;
+         });
+
         $.each(data, function(index, item) {
             var releaseTag = item.tag_name;
             var releaseBadge = "";
