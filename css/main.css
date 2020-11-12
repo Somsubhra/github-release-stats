@@ -23,7 +23,6 @@ code {
 
 #stats-result {
     margin-top: 50px;
-    margin-bottom: 40px;
 }
 
 .alert.output {
@@ -148,3 +147,22 @@ body {
     margin-top: 20px;
 }
 
+#pagination {
+	display: flex;
+	justify-content: center;
+}
+
+#per-page {
+    padding: 5px;
+	display: flex;
+	align-items: center;
+}
+
+#per-page > * {
+    display: flex;
+}
+
+#per-page select {
+    width: 60px;
+    margin-left: 5px;
+}
