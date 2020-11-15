@@ -1,4 +1,5 @@
 var apiRoot = "https://api.github.com/";
+var latestReleaseId = getQueryVariable("latest_release_id");
 
 // Return a HTTP query variable
 function getQueryVariable(variable) {
@@ -87,7 +88,7 @@ function showStats(data) {
     } else {
         html += "<div class='col-md-6 col-md-offset-3 output'>";
 
-        var isLatestRelease = getQueryVariable("page") == 1 ? true : false;
+        var isLatestRelease = true;
         var totalDownloadCount = 0;
         $.each(data, function(index, item) {
             var releaseTag = item.tag_name;
@@ -103,10 +104,11 @@ function showStats(data) {
             if(isPreRelease) {
                 releaseBadge = "&nbsp;&nbsp;<span class='badge'>Pre-release</span>";
                 releaseClassNames += " pre-release";
-            } else if(isLatestRelease) {
+            } else if(isLatestRelease && (!latestReleaseId || latestReleaseId == item.id)) {
                 releaseBadge = "&nbsp;&nbsp;<span class='badge'>Latest release</span>";
                 releaseClassNames += " latest-release";
                 isLatestRelease = false;
+                latestReleaseId = item.id;
             }
 
             var downloadInfoHTML = "";
@@ -194,6 +196,7 @@ function redirect(page, perPage) {
     window.location = "?username=" + $("#username").val() +
         "&repository=" + $("#repository").val() +
         "&page=" + page + "&per_page=" + perPage +
+        "&latest_release_id=" + latestReleaseId +
         ((getQueryVariable("search") == "0") ? "&search=0" : "");
 }
 
@@ -207,7 +210,8 @@ $(function() {
     $("#username").change(getUserRepos);
 
     $("#get-stats-button").click(function() {
-        redirect(page, perPage);
+        latestReleaseId = "";
+        redirect(1, perPage);
     });
 
     $("#get-prev-results-button").click(function() {
